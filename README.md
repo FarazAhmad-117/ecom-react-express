@@ -4,11 +4,19 @@ A free to use project for anyone with basic knowledge of mern.... :<)
 
 ## Deploy frontend on Vercel
 
-This repo has **no root `package.json`** — the Vite app lives in **`client/`**.
+The Vite app lives in **`client/`**. Root **`package.json`** installs and builds that folder for Vercel.
 
-**Option A (recommended):** In Vercel → Project Settings → **Root Directory** → set to **`client`**, then redeploy. Framework preset: **Vite**.
+**Recommended (repo root deploy):**
 
-**Option B:** Leave root directory empty; the repo root **`vercel.json`** runs install/build in `client/` and outputs `client/dist`.
+1. Vercel → **Settings → General → Root Directory** → leave **empty** (repository root).
+2. **Build & Development:** Framework **Other** or **Vite** — **Install Command** `npm install`, **Build Command** `npm run build`, **Output Directory** `client/dist` (or rely on root `vercel.json`).
+3. Clear any old override like `vite build` with no `client` path.
+4. Redeploy.
 
-If you see `vite: command not found`, Vercel is building from the wrong folder or skipping dev tooling — use one of the options above.
+**Alternative:** Set **Root Directory** to **`client`** only. Then Output Directory must be **`dist`**, not `client/dist`. Remove custom build commands so Vercel uses `client/package.json`.
+
+| Error | Fix |
+|-------|-----|
+| `Failed to locate package.json` | Root Directory must be **empty** (uses root `package.json`) **or** exactly **`client`** — not both mixed with wrong output path. |
+| `vite: command not found` | Do not run bare `vite build` at repo root; use **`npm run build`**. |
 
